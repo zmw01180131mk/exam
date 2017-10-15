@@ -1,0 +1,243 @@
+<div class="editingarea">
+        <div class="c_flex"><span class="c_flexible"></span></div>
+        <div class="c_editview">
+        <div class="c_condition">
+            <span><select><option>题干</option></select></span>
+            <span class="pl5 " ><input type="text"></span>
+            <span class="pl15 pr15 btn_gray ">查找</span>
+            <span class="icon_lead-in"><em class="icon_r">批量导入题目</em></span>
+            <span class="icon_add"><em class="icon_r">单个添加题目</em></span>
+        </div>
+        <div class="divtable">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablea">
+                <tr hidden>
+                    <td align="center">年份</td>
+                    <td align="left">
+                        <div class="chose">
+                            <a href="javascript:void(0)" class="active3">全部</a>
+                            <a href="javascript:void(0)">语文</a>
+                            <a href="javascript:void(0)">数学</a>
+                            <a href="javascript:void(0)">英语</a>
+                            <a href="javascript:void(0)">政治</a>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+            <div class="Catalog">
+                <div class="Catalog_right">
+                    <div class="Catalogtitle">总计<em>15552</em>道题&nbsp;&nbsp;提示：单击体面可显示答案和解析&nbsp;&nbsp;<input type="checkbox" /><b>显示答案和解析</b>&nbsp;&nbsp;<a href="#" class="Thispage">本页全部试题加入试卷</a><div><i>1</i><a href="#" class="pageone">前</a><a href="#" class="pagetwo">后</a></div></div>
+                    <div class="Catalog_rightnei" hidden>
+                        <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
+                        <div class="Catalogcontent">
+                            <div class="Catalogcontentup">题型</div>
+                            <div class="Catalogcontentdown">
+                                <a href="javascript:void(0)">审核通过</a>
+                                <a href="javascript:void(0)">审核不通过</a>
+                                <a href="javascript:void(0)">删除题目</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Catalog_rightnei">
+                        <div class="Catalogtitwo">题号：25544&nbsp;&nbsp;题型：还是得&nbsp;&nbsp;难度：订餐&nbsp;&nbsp;上传人：女性司机&nbsp;&nbsp;来源：才能使得&nbsp;&nbsp;上传时间:220255&nbsp;&nbsp;组卷次数：<em>0</em></div>
+                        <div class="Catalogcontent">
+                            <div class="Catalogcontentup">题型</div>
+                            <div class="Catalogcontentdown"><a href="javascript:void(0)">加入试卷</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+   
+
+<script>
+$(function(){
+    //获取类型数据
+    $.getJSON('/exam/manager/getAllSubjectType',function(data){    
+        var tr=$('tr:hidden').clone().removeAttr('hidden');   
+        tr.children('td').eq(0).html('类型');
+    
+        tr.find('.chose').html('');
+        data.forEach(function(item,index) {
+            if(index==0){
+                var a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+" class='active3' >"+item.realName+"</a>")
+            }else{
+                var a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+">"+item.realName+"</a>")
+            }
+            tr.find('.chose').append(a);
+        });
+         $('.tablea').append(tr);
+    });
+    //获取方向数据
+    $.getJSON('/exam/manager/getAllDepartmentes',function(data){
+       
+        var tr=$('tr:hidden').clone().removeAttr('hidden');
+        
+        tr.children('td').eq(0).html('方向'); 
+        tr.find('.chose').html('');
+        data.forEach(function(item,index) {
+            if(index==0){
+                var a=$("<a href='javascript:void(0)'id="+item.id+" name="+item.name+" class='active3'>"+item.name+"</a>")
+            }else{
+                var a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+">"+item.name+"</a>")
+            }
+            tr.find('.chose').append(a);
+        });
+        $('.tablea').append(tr);
+    });
+    //获取难度系数数据
+     $.getJSON('/exam/manager/getAllSubjectLevel',function(data){
+      
+        var tr=$('tr:hidden').clone().removeAttr('hidden');
+        
+        tr.children('td').eq(0).html('难度');
+        tr.find('.chose').html('');
+        data.forEach(function(item,index) {
+            if(index==0){
+                var a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.realName+" class='active3'>"+item.realName+"</a>")
+            }else{
+                var a=$("<a href='javascript:void(0)' id="+item.id+" name="+item.name+">"+item.realName+"</a>")
+            }
+            tr.find('.chose').append(a);
+        });
+        $('.tablea').append(tr);
+    });
+    //获取知识点数据
+     $.getJSON('/exam/manager/getAllTopics',function(data){
+       
+        var tr=$('tr:hidden').clone().removeAttr('hidden');
+        
+        tr.children('td').eq(0).html('知识点');
+        tr.find('.chose').html('');
+        data.forEach(function(item,index){
+            if(index==0){
+                var a=$("<a href='javascript:void(0)' id="+item.id+" class='active3'>"+item.title+"</a>")
+            }else{
+                var a=$("<a href='javascript:void(0)' id="+item.id+">"+item.title+"</a>")
+            }
+            tr.find('.chose').append(a);
+        });
+        $('.tablea').append(tr);
+    });
+    //查找题目
+  
+    $('.tablea').on('click','a',function(){
+        $(this).addClass('active3').siblings().removeClass('active3');
+    //拿到所有正在选中的a标签
+        var arr=$('.tablea tbody tr td div a.active3').get();//get方法用于将类数组转换为数组对象
+        // console.log(arr);
+        var type="";
+        var department="";
+        var level="";
+        var topic="";
+        arr.forEach(function(item,index,arr){
+            var atd=$(item).parent().parent().parent().children().eq(0).html();
+            // console.log(atd);
+            switch(atd){
+                case '类型':
+                    type=$(item).attr('id');
+                    break;
+                case '方向':
+                    department=$(item).attr('id');
+                    break;
+                case '难度':
+                    level=$(item).attr('id');
+                    break;
+                case '知识点':
+                    topic=$(item).attr('id');
+                    break;
+            }
+        })
+        $.ajax('/exam/manager/getAllSubjects',{
+            method:'post',
+            data:{    		
+                "subject.department.id":department,
+                "subject.topic.id":topic,			  			
+                "subject.subjectType.id":type,
+                "subject.subjectLevel.id":level
+            },
+            success:function(data){
+                showData(data);
+                check(data);
+			},
+			error:function(data){
+			    console.log("fail");
+		    } 
+            
+        })
+    })  
+    
+})  
+function showData(data){
+        // data=JSON.parse(data);
+        //修改标题显示题目有多少道
+        $('.Catalogtitle').find('em').html(data.length);
+        //在添加之前首先将页面进行清空
+        $('.Catalog_rightnei:not(:hidden)').remove();
+        data.forEach(function(item,index){
+            var div=$('.Catalog_rightnei:hidden').clone().removeAttr('hidden');
+            $('.Catalog_right').append(div);
+            //题目id
+            var id=item.id;
+            //题目信息
+            var stemOne=$("<span>"+item.stem+"</span>");
+            div.find('.Catalogcontentup').append(stemOne);
+
+            //判断题目类型,选择题将选项显示出来
+            switch(item.subjectType_id){
+                //单选题
+                case 1:
+                    $.ajax('/exam/manager/getChoice',{
+                        method:'get',
+                        data:{'subject.id':item.id},
+                        success:function(data){
+                            var ol="<ol type='A'>"+"</ol>";
+                            $('.Catalogcontentup').append(ol);
+                            data.forEach(function(item){
+                                var choice=$(
+                                        "<li>"+item.content+"</li>"
+                                    );
+                                $('.Catalogcontentup ol').append(choice).addClass('ch');
+                                console.log(item);
+                            })
+                        }
+                    });
+                    break;
+                //多选题
+                case 2:
+                    break;
+                //简答题
+                case 3:
+                    break;
+            }
+        })
+    }
+function check(data){
+    //审核题目
+    data.forEach(function(item){ 
+        // console.log(item.checkState);
+        // console.log($(item).attr({checkState:'通过'}));
+        $('.Catalogcontentdown').on('click','a',function(){
+        //console.log($(this).html());
+            switch($(this).html()){
+                case '审核通过':
+                    // var check=$(item).attr('checkState');
+                    $.ajax('/exam/manager/checkSubject',{
+                        method:'get',
+                        data:{
+                            'subject.id':item.id,
+                            'subject.checkState':'check',
+                        },
+                        success:function(){
+                            alert('ok');
+                        }
+                    });
+                    break;
+            }
+        })
+    })
+}
+</script>
